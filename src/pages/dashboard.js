@@ -67,7 +67,7 @@ const Dashboard = () => {
         {
             itemmodal && <div className='popup_overlay d_flex jus_center align_center'>
                     <div className='popup'>
-                        <h4>ADD ITEM</h4>
+                        <h4 className='text_center'>ADD ITEM</h4>
                         <form onSubmit={(e) => ItemSubmit(e)}>
                             <TextField name="name" label="Name" value={itemdata?.name} handleChange={handleChange}   />
                             <TextField name="price" label="Price" value={itemdata?.price} handleChange={handleChange}   />

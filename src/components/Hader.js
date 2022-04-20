@@ -21,7 +21,7 @@ export default function Hader() {
                     <div className='header_nav'>
                         {
                           udata ? <div className='d_flex'>
-                                    <p>{udata?.fname} {udata?.lname} { " "}</p>
+                                    <p>{udata?.name} { " "}</p>
                                     <h4 className='pointer' onClick={Signout} >&nbsp; SignOut </h4>
                                 </div>  
                           :

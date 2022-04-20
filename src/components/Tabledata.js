@@ -9,6 +9,7 @@ import Pagination from 'components/Pagination';
 function Tabledata() {
     const [modal, Setdmodal] = useState()
     const [deleteId, SetdeleteId] = useState()
+    const [sort, Setsort] = useState("name")
     let itemArr = useSelector((state) => state?.rootReducer?.itemArray);
     console.log("itemArr", itemArr);
     const dispatch = new useDispatch()
@@ -29,12 +30,27 @@ function Tabledata() {
     const Cancleclick = () => {
         Setdmodal(false)
     }
+    const SortItem = (e) => {
+        Setsort(e?.target?.value)
+    }
    
   return (
       <>
-      <CSVLink data={itemArr} headers={headers}>
-       Download CSV
-      </CSVLink>
+        <div className='d_flex jus_spbtw mb_20'>
+            <div>
+                <CSVLink data={itemArr} headers={headers}>
+                Download CSV
+                </CSVLink>
+            </div>
+            <div>
+                <p>Sort By</p>
+                <select onChange={SortItem}>
+                    <option value="name">Name</option>
+                    <option value="price">Price</option>
+                </select>
+            </div>
+        </div>
+      
         <div className='table_item'>
             <table>
                 <thead>

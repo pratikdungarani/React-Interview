@@ -28,7 +28,6 @@ function Signup() {
     }
   return (
     <div className='login_box bglight'>
-        {console.log("userdata",userdata)}
         <form onSubmit={(e) => LoginSubmit(e)}>
             <TextField name="username" label="Username" handleChange={handleChange} userdata={userdata} error = {simpleValidator.current.message('username', userdata?.username, 'required')} />
 

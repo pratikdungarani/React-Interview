@@ -3,7 +3,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import Cookies from 'universal-cookie';
 import { Link, useNavigate } from "react-router-dom";
 import TextField from 'components/TextField'
-// import { useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 export default function Login() {
     const cookies = new Cookies();
@@ -12,13 +12,18 @@ export default function Login() {
     const simpleValidator = useRef(new SimpleReactValidator())
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
-    // let users = useSelector((state) => state?.rootReducer?.udata);
+    let users = useSelector((state) => state?.rootReducer?.udata);
     const [error, setError] = useState(false)
     const LoginSubmit = (e) => {
         e.preventDefault()
         if (simpleValidator.current.allValid()){
-            cookies.set('userdata', userdata, { path: '/' });
-            navigate('dashboard')
+           let getuser = users.find((user) => user?.email === userdata?.email)
+            if( users.find((user) => user?.email === userdata?.email ) ) {
+                cookies.set('userdata', getuser, { path: '/' });
+                navigate('dashboard')
+            }else{
+                setError(true)
+            }
         }else{
             setError(false)
             simpleValidator.current.showMessages();
@@ -35,8 +40,8 @@ export default function Login() {
             <div className='login_box bglight'>
                 <div>
                     <form onSubmit={(e) => LoginSubmit(e)}>
-                        <TextField name="email" label="Email" handleChange={handleChange} userdata={userdata} error = {simpleValidator.current.message('email', userdata?.email, 'required|email')} />
                         {error && <p className='srv-validation-message'>User Does not exist</p>}
+                        <TextField name="email" label="Email" handleChange={handleChange} userdata={userdata}  error = {simpleValidator.current.message('email', userdata?.email, 'required|email')} />
                         <div className='field_row'>
                             <label>Password</label>
                             <div>
