@@ -9,11 +9,13 @@ import Pagination from 'components/Pagination';
 function Tabledata() {
     const [modal, Setdmodal] = useState()
     const [deleteId, SetdeleteId] = useState()
-    const [sort, Setsort] = useState("name")
-    let itemArr = useSelector((state) => state?.rootReducer?.itemArray);
-    console.log("itemArr", itemArr);
+    const [sort, Setsort] = useState('')
+    let allitemArr = useSelector((state) => state?.rootReducer?.itemArray);
+    let paginArray = useSelector((state) => state?.rootReducer?.paginArray);
+    let searchText = useSelector((state) => state?.rootReducer?.searchText);
+    let searchArr = useSelector((state) => state?.rootReducer?.searchArray);
+    let itemsPerPage = useSelector((state) => state?.rootReducer?.perpage);
     const dispatch = new useDispatch()
-    const [itemsPerPage, setitemsPerPage] = useState(1);
     const headers = [
         { label: "Name", key: "name" },
         { label: "Price", key: "price" },
@@ -32,19 +34,40 @@ function Tabledata() {
     }
     const SortItem = (e) => {
         Setsort(e?.target?.value)
+        // dispatch(sortItemAction(e?.target?.value))
+        SortFunc(e?.target?.value)
     }
+
+    const SortFunc = (sort) => {
+        if(sort === 'price'){
+           allitemArr.sort(function(a, b) {
+                if(parseInt(a[sort]) < parseInt(b[sort])) return -1;
+                if(parseInt(a[sort]) > parseInt(b[sort])) return 1;
+                return 0;
+               })
+        }else{
+           allitemArr.sort(function(a, b) {
+                if(a[sort].toLowerCase() < b[sort].toLowerCase()) return -1;
+                if(a[sort].toLowerCase() > b[sort].toLowerCase()) return 1;
+                return 0;
+            })
+        }
+    }
+
+
    
   return (
       <>
         <div className='d_flex jus_spbtw mb_20'>
             <div>
-                <CSVLink data={itemArr} headers={headers}>
-                Download CSV
+                <CSVLink data={allitemArr} headers={headers}>
+                    Download CSV
                 </CSVLink>
             </div>
             <div>
                 <p>Sort By</p>
                 <select onChange={SortItem}>
+                    <option >Select </option>
                     <option value="name">Name</option>
                     <option value="price">Price</option>
                 </select>
@@ -63,7 +86,7 @@ function Tabledata() {
                 </thead>
                 <tbody>
                     {
-                        itemArr?.map((item, i) => {
+                        searchText.length === 0 ? paginArray?.map((item, i) => {
                             return  <tr key={i}>
                                         <td>{i+1}</td>
                                         <td>{item?.name}</td>
@@ -72,14 +95,29 @@ function Tabledata() {
                                             <button className='link_btn' onClick={() => RemoveItem(item?.id)}>X</button>
                                         </td>
                                     </tr>
-                        })
+                        }) : searchArr.length > 0 ? searchArr?.map((item, i) => {
+                            return  <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{item?.name}</td>
+                                        <td>{item?.price}</td>
+                                        <td>
+                                            <button className='link_btn' onClick={() => RemoveItem(item?.id)}>X</button>
+                                        </td>
+                                    </tr>
+                        }) : "No Data Fopund"
+                    }
+                    {
+                       
                     }
                 </tbody>
             </table>
+                {/* {
+                        searchArr.length === 0 && "No Data Fopund"
+                } */}
         </div>
         <div className='pagination'>
             {
-                itemArr.length > itemsPerPage && <Pagination itemsPerPage={itemsPerPage} items={itemArr} />
+                allitemArr.length > itemsPerPage && <Pagination  />
             }
         </div>
         {

@@ -16,3 +16,15 @@ export const searchItemAction = (res) => {
         payload:res
     }
 }
+export const sortItemAction = (res) => {
+    return{
+        type:'SORT_ITEM',
+        payload:res
+    }
+}
+export const PageItemAction = (res) => {
+    return{
+        type:'PAGINATION_ITEM',
+        payload:res
+    }
+}

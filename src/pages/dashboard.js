@@ -3,7 +3,8 @@ import React, { useState, useEffect } from 'react'
 import TextField from 'components/TextField';
 import Tabledata from 'components/Tabledata';
 import { useDispatch } from 'react-redux';
-import {addItemAction, searchItemAction} from 'store/actions/index'
+import {addItemAction, searchItemAction, PageItemAction} from 'store/actions/index'
+import { useSelector } from 'react-redux'
 
 
 const Dashboard = () => {
@@ -11,28 +12,23 @@ const Dashboard = () => {
     const dispatch = new useDispatch()
     const [search, setsearch] = useState('')
     const [itemmodal, setitemmodal] = useState(false)
-    const [itemdata, setitemdata] = useState({ name:'', price:''})
-  
-
+    const [itemdata, setitemdata] = useState({ name:'', price:null})
+    // let allitemArr = useSelector((state) => state?.rootReducer?.itemArray);
+    // let itemArr = useSelector((state) => state?.rootReducer?.searchArray);
+    // let perpage = useSelector((state) => state?.rootReducer?.perpage);
+    let StartIndex = useSelector((state) => state?.rootReducer?.pageStartIndex);
+    
     const handleChange = (e) => {
         const {name, value} = e?.target
         setitemdata({...itemdata,[name]:value})
     }
     const handleSearch = (e) => {
         setsearch(e?.target?.value)
-        dispatch(searchItemAction(e?.target?.value))
-
-        // let aaa = addarr.filter(item =>  item?.adress.toLowerCase().includes(e?.target?.value.toLowerCase()) )
-        // console.log("aaaa", aaa);
-        // setcopyaddarr(aaa)
-        // if(!e?.target?.value){
-        //     setcopyaddarr(addarr)
-        // }
     }
 
     useEffect(() => {
-
-    }, [])
+        dispatch(searchItemAction(search))
+    }, [search])
     
 
     const AddItemModal = () => {
@@ -47,9 +43,11 @@ const Dashboard = () => {
         dispatch(addItemAction(itemdata))
         setitemmodal(false)
         setitemdata({name:'', price:''})
+        dispatch(PageItemAction(StartIndex))
     }
   return (
      <>
+        {console.log("search",search)}
         <div className='container'>
             <h1 className='text_center address_title'>List Book</h1>
             <div className='text_center search_row'>

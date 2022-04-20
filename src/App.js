@@ -1,7 +1,6 @@
 import React from "react";
-import logo from './logo.svg';
 import './App.css';
-import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter as Router} from "react-router-dom";
 import Routers from './routes'
 import { Provider } from 'react-redux';
 import store from 'store/store';
