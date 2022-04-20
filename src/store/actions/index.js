@@ -4,3 +4,15 @@ export const addItemAction = (res) => {
         payload:res
     }
 }
+export const removeItemAction = (res) => {
+    return{
+        type:'REMOVE_ITEM',
+        payload:res
+    }
+}
+export const searchItemAction = (res) => {
+    return{
+        type:'SEARCH_ITEM',
+        payload:res
+    }
+}

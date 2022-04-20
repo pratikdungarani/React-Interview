@@ -180,3 +180,39 @@ a{
         }
     }
 }
+// pagination
+.pagination{
+    margin: 25px auto;
+    ul{
+        display: flex;
+        padding-left: 0;
+        list-style: none;
+        li{
+            &.previous, &.next {
+                &.disabled{
+                    a{
+                        pointer-events: none;
+                    }
+                }
+            }
+            a{
+                padding: 7px;
+                position: relative;
+                display: block;
+                color: #0d6efd;
+                text-decoration: none;
+                background-color: #fff;
+                border: 1px solid #dee2e6;
+                cursor: pointer;
+            }
+            &.selected{
+                a{
+                    z-index: 3;
+                    color: $white;
+                    background-color: $linkhover;
+                    border-color: $linkhover;
+                }
+            }
+        }
+    }
+}

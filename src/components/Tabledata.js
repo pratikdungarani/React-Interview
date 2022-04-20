@@ -1,37 +1,75 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import {removeItemAction} from 'store/actions/index'
+import { useSelector } from 'react-redux'
+import Modal from 'components/Modal';
+import { CSVLink } from "react-csv";
+import Pagination from 'components/Pagination';
 
 function Tabledata() {
+    const [modal, Setdmodal] = useState()
+    const [deleteId, SetdeleteId] = useState()
+    let itemArr = useSelector((state) => state?.rootReducer?.itemArray);
+    console.log("itemArr", itemArr);
+    const dispatch = new useDispatch()
+    const [itemsPerPage, setitemsPerPage] = useState(1);
+    const headers = [
+        { label: "Name", key: "name" },
+        { label: "Price", key: "price" },
+      ];
+    const RemoveItem = (id) => {
+        Setdmodal(true)
+        SetdeleteId(id)
+    } 
+    const DeleteYesClick = () => {
+        dispatch(removeItemAction(deleteId))
+        SetdeleteId('')
+        Setdmodal(false)
+    }
+    const Cancleclick = () => {
+        Setdmodal(false)
+    }
+   
   return (
-    <div className='table_item'>
-        <table>
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>fdsf</td>
-                    <td>dsfdsf</td>
-                    <td>323</td>
-                    <td>
-                        <button className='link_btn'>X</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>fdsf</td>
-                    <td>dsfdsf</td>
-                    <td>323</td>
-                    <td>
-                        <button className='link_btn'>X</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+      <>
+      <CSVLink data={itemArr} headers={headers}>
+       Download CSV
+      </CSVLink>
+        <div className='table_item'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        itemArr?.map((item, i) => {
+                            return  <tr key={i}>
+                                        <td>{i+1}</td>
+                                        <td>{item?.name}</td>
+                                        <td>{item?.price}</td>
+                                        <td>
+                                            <button className='link_btn' onClick={() => RemoveItem(item?.id)}>X</button>
+                                        </td>
+                                    </tr>
+                        })
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div className='pagination'>
+            {
+                itemArr.length > itemsPerPage && <Pagination itemsPerPage={itemsPerPage} items={itemArr} />
+            }
+        </div>
+        {
+            modal && <Modal message="Are you want to sure Delete" Cancleclick={Cancleclick} DeleteYes={DeleteYesClick} />
+        }
+      </>
   )
 }
 

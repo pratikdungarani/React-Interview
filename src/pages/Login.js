@@ -3,7 +3,7 @@ import SimpleReactValidator from 'simple-react-validator';
 import Cookies from 'universal-cookie';
 import { Link, useNavigate } from "react-router-dom";
 import TextField from 'components/TextField'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 
 export default function Login() {
     const cookies = new Cookies();
@@ -12,7 +12,7 @@ export default function Login() {
     const simpleValidator = useRef(new SimpleReactValidator())
     const [, updateState] = React.useState();
     const forceUpdate = React.useCallback(() => updateState({}), []);
-    let users = useSelector((state) => state.udata);
+    // let users = useSelector((state) => state?.rootReducer?.udata);
     const [error, setError] = useState(false)
     const LoginSubmit = (e) => {
         e.preventDefault()
