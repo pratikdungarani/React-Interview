@@ -10,7 +10,7 @@ function Pagination() {
   let itemsPerPage = useSelector((state) => state?.rootReducer?.perpage);
   const dispatch = useDispatch()
   // We start with an empty list of items.
-  const [currentItems, setCurrentItems] = useState(null);
+  // const [currentItems, setCurrentItems] = useState(null);
   const [pageCount, setPageCount] = useState(0);
   // Here we use item offsets; we could also use page offsets
   // following the API or data you're working with.
@@ -20,7 +20,7 @@ function Pagination() {
     // Fetch items from another resources.
     const endOffset = itemOffset + itemsPerPage;
     console.log(`Loading items from ${itemOffset} to ${endOffset}`);
-    setCurrentItems(items.slice(itemOffset, endOffset));
+    // setCurrentItems(items.slice(itemOffset, endOffset));
     setPageCount(Math.ceil(items.length / itemsPerPage));
   }, [itemOffset, itemsPerPage,items]);
 

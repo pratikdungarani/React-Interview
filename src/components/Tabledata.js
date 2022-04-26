@@ -9,7 +9,6 @@ import Pagination from 'components/Pagination';
 function Tabledata() {
     const [modal, Setdmodal] = useState()
     const [deleteId, SetdeleteId] = useState()
-    const [sort, Setsort] = useState('')
     let allitemArr = useSelector((state) => state?.rootReducer?.itemArray);
     let paginArray = useSelector((state) => state?.rootReducer?.paginArray);
     let searchText = useSelector((state) => state?.rootReducer?.searchText);
@@ -33,7 +32,6 @@ function Tabledata() {
         Setdmodal(false)
     }
     const SortItem = (e) => {
-        Setsort(e?.target?.value)
         // dispatch(sortItemAction(e?.target?.value))
         SortFunc(e?.target?.value)
     }
