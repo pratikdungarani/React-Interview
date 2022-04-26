@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 // import Cookies from 'universal-cookie';
 import TextField from 'components/TextField';
 import Tabledata from 'components/Tabledata';
