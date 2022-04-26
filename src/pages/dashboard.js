@@ -24,12 +24,8 @@ const Dashboard = () => {
     }
     const handleSearch = (e) => {
         setsearch(e?.target?.value)
+        dispatch(searchItemAction(e?.target?.value))
     }
-
-    useEffect(() => {
-        dispatch(searchItemAction(search))
-    }, [search])
-    
 
     const AddItemModal = () => {
         setitemmodal(true)
